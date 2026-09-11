@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LuminaLibrary | Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="login-overlay" class="overlay">
+    <div class="login-card">
+        <i class="fas fa-book-reader" style="font-size: 3rem; color: #4f46e5; margin-bottom: 20px;"></i>
+        
+        <input type="text" id="login-user" placeholder="Username">
+        <input type="password" id="login-pass" placeholder="Password">
+        
+        <select id="login-role">
+            <option value="admin">Admin Portal</option>
+            <option value="user">Student Portal</option>
+        </select>
+        
+        <button onclick="handleLogin()">Sign In</button>
+    </div>
+</div>
+
+    <div id="app-container" class="hidden">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>Lumina Admin</h3>
+                <p id="display-role">Role: Admin</p>
+            </div>
+            <nav>
+                <ul>
+                    <li onclick="showSection('dashboard')"><i class="fas fa-chart-line"></i> Dashboard</li>
+                    <li class="admin-only" onclick="showSection('inventory')"><i class="fas fa-boxes"></i> Inventory</li>
+                    <li onclick="showSection('issue-return')"><i class="fas fa-exchange-alt"></i> Issue/Return</li>
+                    <li onclick="showSection('issued-list')"><i class="fas fa-list"></i> Issued Items</li>
+                    <li onclick="showSection('membership')"><i class="fas fa-users"></i> Membership</li>
+                </ul>
+            </nav>
+            <button class="logout-btn" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </aside>
+
+        <main class="content">
+            <section id="dashboard" class="view">
+                <h1>Welcome to Dashboard</h1>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3 id="stat-books">0</h3>
+                        <p>Total Items</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="stat-issued">0</h3>
+                        <p>Currently Issued</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="stat-members">0</h3>
+                        <p>Active Members</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="inventory" class="view hidden">
+                <h1>Manage Inventory</h1>
+                <div class="form-container admin-only">
+                    <h3>Add New Book/Movie</h3>
+                    <div class="input-group">
+                        <input type="text" id="item-name" placeholder="Item Name">
+                        <input type="text" id="item-author" placeholder="Author/Director">
+                        <input type="text" id="item-sn" placeholder="Serial Number">
+                        <select id="item-type">
+                            <option value="Book">Book</option>
+                            <option value="Movie">Movie</option>
+                        </select>
+                        <button onclick="addItem()">Add Item</button>
+                    </div>
+                </div>
+                <table id="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>SN</th>
+                            <th>Name</th>
+                            <th>Author</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventory-list"></tbody>
+                </table>
+            </section>
+
+            <section id="issue-return" class="view hidden">
+                <h1>Issue & Return</h1>
+                <div class="grid-2">
+                    <div class="form-container">
+                        <h3>Issue Item</h3>
+                        <input type="text" id="issue-sn" placeholder="Item Serial Number">
+                        <input type="text" id="issue-user" placeholder="Member Name">
+                        <button onclick="issueItem()">Issue Item</button>
+                    </div>
+                    <div class="form-container">
+                        <h3>Return Item</h3>
+                        <input type="text" id="return-sn" placeholder="Item Serial Number">
+                        <button onclick="returnItem()">Process Return</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="issued-list" class="view hidden">
+                <h1>Issued Items Tracking</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>SN</th>
+                            <th>Issued To</th>
+                            <th>Issue Date</th>
+                            <th>Due Date</th>
+                            <th>Fine Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="issued-items-body"></tbody>
+                </table>
+            </section>
+
+            <section id="membership" class="view hidden">
+                <h1>Membership Management</h1>
+                <div class="form-container admin-only">
+                    <h3>Add New Member</h3>
+                    <input type="text" id="member-name" placeholder="Full Name">
+                    <select id="member-plan">
+                        <option value="Monthly">Monthly</option>
+                        <option value="Yearly">Yearly</option>
+                    </select>
+                    <button onclick="addMember()">Add Member</button>
+                </div>
+                <div id="member-cards" class="stats-grid"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
